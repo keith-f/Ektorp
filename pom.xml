@@ -120,6 +120,23 @@
     </dependencyManagement>
 
     <build>
+    <extensions>
+      <!-- Required for upload/download to Amazon S3 -->
+      <extension>
+        <groupId>org.kuali.maven.wagons</groupId>
+        <artifactId>maven-s3-wagon</artifactId>
+        <!-- Note: versions 1.1.16 to 1.1.19 fail with a 'HTTP 301' error -->
+        <version>1.1.15</version>
+      </extension>
+
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+         <artifactId>wagon-ssh-external</artifactId>
+         <version>1.0-beta-6</version>
+      </extension>
+
+    </extensions>
+
         <defaultGoal>install</defaultGoal>
         <plugins>
             <plugin>
@@ -178,18 +195,23 @@
             </testResource>
         </testResources>
     </build>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype-nexus-staging</id>
-            <name>Nexus Release Repository</name>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-        </repository>
-    </distributionManagement>
+
+
+  <distributionManagement>
+    <repository>
+      <id>www.scalesinformatics.com-releases</id>
+      <url>scpexe://www.scalesinformatics.com/var/www/maven/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>www.scalesinformatics.com-snapshots</id>
+      <url>scpexe://www.scalesinformatics.com/var/www/maven/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
+
+
+
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
